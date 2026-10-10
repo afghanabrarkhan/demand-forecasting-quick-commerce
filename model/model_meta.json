@@ -1,0 +1,24 @@
+{
+  "item_map": {
+    "HOBBIES_1_001": 0,
+    "HOBBIES_1_002": 1,
+    "HOBBIES_1_003": 2,
+    "HOBBIES_1_004": 3,
+    "HOBBIES_1_005": 4
+  },
+  "features": [
+    "item_code",
+    "sell_price",
+    "day",
+    "day_of_week",
+    "week",
+    "month",
+    "quarter",
+    "is_event",
+    "lag_1",
+    "lag_7",
+    "rolling_7"
+  ],
+  "training_rows": 1496,
+  "validation_rows": 375
+}

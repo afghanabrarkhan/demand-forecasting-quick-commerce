@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Project README</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f5fb;
+            color: #202b45;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            padding: 35px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            line-height: 1.8;
+        }
+
+        h1, h2, h3 {
+            color: #3548d4;
+        }
+
+        pre {
+            padding: 16px;
+            background: #f1f3fa;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3548d4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="back">← Back to Dashboard</a>
+
+        <div id="readme-content"></div>
+    </div>
+
+    <script>
+        const content = {{ content | tojson }};
+
+        function escapeHTML(text) {
+            return text.replace(/[&<>"']/g, function (character) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[character];
+            });
+        }
+
+        function displayReadme(text) {
+            let html = escapeHTML(text);
+
+            html = html.replace(/```[^\n]*\n([\s\S]*?)```/g,
+                '<pre><code>$1</code></pre>');
+
+            html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>');
+
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            html = html.replace(/^(?!\s*$|<h[1-6]|<pre|<\/pre>)(.+)$/gm,
+                '<p>$1</p>');
+
+            document.getElementById("readme-content").innerHTML = html;
+        }
+
+        displayReadme(content);
+    </script>
+</body>
+</html>

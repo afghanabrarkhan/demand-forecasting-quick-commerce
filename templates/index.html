@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Forecast AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">DF</div>
+            <div>
+                <h2>Demand Forecast AI</h2>
+                <span>Quick-Commerce</span>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" data-page="overview">Overview</button>
+            <button class="nav-btn" data-page="dashboard">Analytics</button>
+            <button class="nav-btn" data-page="prediction">Future Prediction</button>
+            <button class="nav-btn" data-page="model">ML Model</button>
+            <button class="nav-btn" data-page="dataset">Dataset</button>
+            <button class="nav-btn" data-page="reports">Reports</button>
+            <button class="nav-btn" data-page="about">About Project</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <strong>Abrar Khan Afghan</strong>
+            <span>MCA (Data Science)</span>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">MACHINE LEARNING + BUSINESS INTELLIGENCE</span>
+                <h1 id="page-title">Demand Forecasting System</h1>
+            </div>
+            <div class="status"><span></span> System Dashboard</div>
+        </header>
+
+        <!-- OVERVIEW -->
+        <section id="overview" class="page active">
+            <div class="hero">
+                <div>
+                    <span class="eyebrow">QUICK-COMMERCE DEMAND INTELLIGENCE</span>
+                    <h2>Predict demand.<br><b>Plan inventory better.</b></h2>
+                    <p>End-to-end demand forecasting using historical retail data, machine learning and interactive analytics.</p>
+                    <button class="primary" onclick="showPage('prediction')">Try Future Prediction →</button>
+                </div>
+                <div class="hero-art">
+                    <div class="orb"></div>
+                    <div class="mini-card c1">XGBoost<br><b>Forecasting</b></div>
+                    <div class="mini-card c2">Power BI<br><b>Insights</b></div>
+                    <div class="mini-card c3">Inventory<br><b>Decision</b></div>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card"><span>Total Demand</span><strong id="total-demand">—</strong><small>Historical demand</small></div>
+                <div class="card"><span>Predicted Demand</span><strong id="total-predicted">—</strong><small>Model output</small></div>
+                <div class="card"><span>Products</span><strong id="product-count">—</strong><small>Products analysed</small></div>
+                <div class="card"><span>Best Model</span><strong>XGBoost</strong><small>Best RMSE / R² among tested models</small></div>
+            </div>
+
+            <div class="grid two">
+                <div class="panel">
+                    <div class="panel-head"><div><h3>Demand Trend</h3><p>Actual vs predicted demand</p></div></div>
+                    <canvas id="overviewTrend"></canvas>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><div><h3>Project Workflow</h3><p>From data to decision</p></div></div>
+                    <div class="flow-mini">
+                        <span>Data</span><i>→</i><span>Features</span><i>→</i><span>ML</span><i>→</i><span>Prediction</span><i>→</i><span>Insights</span>
+                    </div>
+                    <div class="note">The web application combines the ML pipeline, analytics, prediction interface and project documentation in one place.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANALYTICS -->
+<section id="dashboard" class="page">
+
+    <div class="section-heading">
+        <span class="eyebrow">ADVANCED BUSINESS INTELLIGENCE</span>
+        <h2>Demand & Inventory Analytics</h2>
+        <p>Explore demand patterns, forecast performance, product trends and inventory risks.</p>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="metric-cards analytics-kpis">
+
+        <div class="metric">
+            <span>Total Actual Demand</span>
+            <strong id="analytics-actual">—</strong>
+            <small>Historical sales</small>
+        </div>
+
+        <div class="metric">
+            <span>Total Predicted Demand</span>
+            <strong id="analytics-predicted">—</strong>
+            <small>Forecasted sales</small>
+        </div>
+
+        <div class="metric">
+            <span>Mean Absolute Error</span>
+            <strong id="analytics-mae">—</strong>
+            <small>Forecast performance</small>
+        </div>
+
+    </div>
+
+    <!-- ROW 1: DEMAND TREND -->
+    <div class="grid two analytics-grid">
+
+        <div class="panel analytics-panel">
+            <h3>Actual vs Predicted Demand</h3>
+            <p>Compare historical demand with model predictions.</p>
+            <div class="chart-box">
+                <canvas id="analyticsTrend"></canvas>
+            </div>
+        </div>
+
+        <div class="panel analytics-panel">
+            <h3>Product Demand Ranking</h3>
+            <p>Identify products with the highest historical demand.</p>
+            <div class="chart-box">
+                <canvas id="productChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ROW 2: WEEKDAY AND MONTHLY ANALYSIS -->
+    <div class="grid two analytics-grid">
+
+        <div class="panel analytics-panel">
+            <h3>Demand by Day of the Week</h3>
+            <p>Compare demand across weekdays.</p>
+            <div class="chart-box">
+                <canvas id="weekdayChart"></canvas>
+            </div>
+        </div>
+
+        <div class="panel analytics-panel">
+            <h3>Monthly Demand Analysis</h3>
+            <p>Explore demand changes across calendar months.</p>
+            <div class="chart-box">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ROW 3: FORECAST ERROR AND EVENT ANALYSIS -->
+    <div class="grid two analytics-grid">
+
+        <div class="panel analytics-panel">
+            <h3>Forecast Error by Product</h3>
+            <p>Compare average absolute prediction errors.</p>
+            <div class="chart-box">
+                <canvas id="errorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="panel analytics-panel">
+            <h3>Demand on Event vs Regular Days</h3>
+            <p>Compare demand when events occur and when they do not.</p>
+            <div class="chart-box">
+                <canvas id="eventChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ROW 4: PRICE AND INVENTORY INSIGHTS -->
+    <div class="grid two analytics-grid">
+
+        <div class="panel analytics-panel">
+            <h3>Selling Price vs Demand</h3>
+            <p>Explore the relationship between product prices and demand.</p>
+            <div class="chart-box">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+
+        <div class="panel analytics-panel">
+            <h3>Inventory Planning Insights</h3>
+            <p>Use forecast results to identify products that may need attention.</p>
+
+            <div class="inventory-insights" id="inventoryInsights">
+
+                <div class="note">
+                    Inventory insights will appear after the analytics data loads.
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel analytics-summary">
+        <h3>Business Recommendations</h3>
+
+        <div class="insight-row">
+
+            <div class="insight">
+                <b>Demand Planning</b>
+                <span>Use demand patterns to support replenishment planning.</span>
+            </div>
+
+            <div class="insight">
+                <b>Forecast Monitoring</b>
+                <span>Review products with larger prediction errors.</span>
+            </div>
+
+            <div class="insight">
+                <b>Inventory Management</b>
+                <span>Use forecasts alongside stock levels and supplier lead times.</span>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+        <!-- PREDICTION -->
+        <section id="prediction" class="page">
+            <div class="section-heading"><span class="eyebrow">ML PREDICTION ENGINE</span><h2>Future Demand Prediction</h2><p>Enter future conditions and generate a demand forecast with XGBoost.</p></div>
+            <div class="prediction-layout">
+                <form id="predictionForm" class="panel form-panel">
+                    <label>Product
+                        <select id="product" required></select>
+                    </label>
+                    <label>Future Date
+                        <input type="date" id="date" required>
+                    </label>
+                    <label>Selling Price
+                        <input type="number" id="price" step="0.01" min="0" value="8.50" required>
+                    </label>
+                    <label>Event / Holiday
+                        <select id="event"><option value="0">No</option><option value="1">Yes</option></select>
+                    </label>
+                    <label>Previous Day Demand
+                        <input type="number" id="lag1" min="0" step="0.01" value="1">
+                    </label>
+                    <label>Demand 7 Days Ago
+                        <input type="number" id="lag7" min="0" step="0.01" value="1">
+                    </label>
+                    <label>7-Day Average Demand
+                        <input type="number" id="rolling7" min="0" step="0.01" value="1">
+                    </label>
+                    <button class="primary full" type="submit">Predict Future Demand</button>
+                    <p class="form-note">The model is created by running <code>train_model.py</code> with your actual project CSV.</p>
+                </form>
+
+                <div class="prediction-result panel">
+                    <span class="eyebrow">FORECAST RESULT</span>
+                    <div id="prediction-placeholder">
+                        <div class="prediction-icon">⌁</div>
+                        <h3>Your prediction will appear here</h3>
+                        <p>Complete the inputs and click the prediction button.</p>
+                    </div>
+                    <div id="prediction-output" class="hidden">
+                        <span>Predicted Demand</span>
+                        <strong id="prediction-value">0</strong>
+                        <small>units</small>
+                        <div class="recommendation"><b>Inventory Recommendation</b><span id="recommendation-value">0 units</span></div>
+                        <div class="model-badge">Powered by XGBoost</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODEL -->
+        <section id="model" class="page">
+            <div class="section-heading"><span class="eyebrow">MODEL PERFORMANCE</span><h2>Machine Learning Models</h2><p>Comparison of the models tested in the project.</p></div>
+            <div class="metric-cards">
+                <div class="metric"><span>MAE</span><strong>0.910882</strong><small>XGBoost</small></div>
+                <div class="metric"><span>RMSE</span><strong>1.284785</strong><small>Best among tested models</small></div>
+                <div class="metric"><span>R²</span><strong>0.168350</strong><small>Best among tested models</small></div>
+            </div>
+            <div class="panel">
+                <table>
+                    <thead><tr><th>Model</th><th>MAE</th><th>RMSE</th><th>R²</th></tr></thead>
+                    <tbody>
+                        <tr><td>Linear Regression</td><td>0.890078</td><td>1.298526</td><td>0.150466</td></tr>
+                        <tr><td>Random Forest</td><td>0.950579</td><td>1.325256</td><td>0.115131</td></tr>
+                        <tr class="best"><td><b>XGBoost</b></td><td>0.910882</td><td><b>1.284785</b></td><td><b>0.168350</b></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note">R² is modest, so the model should be presented as a forecasting prototype and decision-support tool rather than as a claim of perfect accuracy.</div>
+        </section>
+
+        <!-- DATASET -->
+        <section id="dataset" class="page">
+            <div class="section-heading"><span class="eyebrow">PROJECT DATA</span><h2>Dataset Explorer</h2><p>Preview the first 500 rows from your Power BI export.</p></div>
+            <div class="panel table-wrap">
+                <div class="table-tools"><input id="tableSearch" placeholder="Search product, date, store..."></div>
+                <table id="dataTable"><thead></thead><tbody></tbody></table>
+            </div>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="reports" class="page">
+            <div class="section-heading"><span class="eyebrow">DOCUMENTATION</span><h2>Project Reports</h2><p>Keep your report and project documentation together.</p></div>
+            <div class="report-grid">
+                <div class="report-card"><div class="report-icon">PDF</div><h3>IEEE Project Report</h3><p>Complete report covering methodology, models, dashboards, findings and future scope.</p><a class="secondary"
+                href="{{ url_for('static', filename='reports/Demand_Forecasting_Mini_Project_Report_Updated__001.pdf') }}"
+                target="_blank">
+                Open Report</a></div>
+                <div class="report-card"><div class="report-icon">MD</div><h3>README</h3><p>Project setup, workflow, technologies, model results and future scope.</p><a class="secondary" href="/readme" target="_blank">View README</a></div>
+                <div class="report-card"><div class="report-icon">FLOW</div><h3>System Architecture</h3><p>Complete flow from data collection to ML prediction and inventory decisions.</p><button class="secondary" onclick="showPage('about')">View Flow</button></div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="page">
+            <div class="section-heading"><span class="eyebrow">PROJECT ARCHITECTURE</span><h2>End-to-End System</h2><p>How the final application connects all parts of the project.</p></div>
+            <div class="architecture">
+                <div class="arch-box">DATA COLLECTION<br><small>Sales + Calendar + Prices</small></div>
+                <div class="arrow">↓</div>
+                <div class="arch-box">PREPROCESSING<br><small>Cleaning + Transformation</small></div>
+                <div class="arrow">↓</div>
+                <div class="arch-box">FEATURE ENGINEERING<br><small>Lag + Rolling + Time Features</small></div>
+                <div class="arrow">↓</div>
+                <div class="arch-box highlight">XGBOOST MODEL<br><small>Training + Evaluation</small></div>
+                <div class="arrow">↓</div>
+                <div class="arch-box">FUTURE PREDICTION<br><small>Demand + Inventory Recommendation</small></div>
+                <div class="arrow">↓</div>
+                <div class="arch-box">WEB + POWER BI<br><small>Analytics + Decision Support</small></div>
+            </div>
+            <div class="about-card">
+                <h3>Student</h3>
+                <p><b>Abrar Khan Afghan</b><br>Master of Computer Applications (Data Science)</p>
+                <h3>Project</h3>
+                <p>Demand Forecasting for a Quick-Commerce Store Using Machine Learning</p>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
