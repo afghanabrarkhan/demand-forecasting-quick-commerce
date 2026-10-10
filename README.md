@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Demand Forecasting for a Quick-Commerce Store Using Machine Learning
 
 ## 1. Project Overview
@@ -273,3 +274,7 @@ Machine Learning
 **Academic Year:** 2026–2028
 
 **University:** Alliance University
+=======
+# demand-forecasting-quick-commerce
+Machine Learning-Based Demand Forecasting Web Application
+>>>>>>> be227a6aaaf41ec85b2609f1b6c6accc35ed4116
